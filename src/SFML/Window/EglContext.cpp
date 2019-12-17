@@ -97,6 +97,9 @@ m_config  (NULL)
 
     m_surface = eglCheck(eglCreatePbufferSurface(m_display, m_config, attrib_list));
 
+#if defined(SFML_OPENGL_ES2)
+	eglBindAPI(EGL_OPENGL_ES_API);
+#endif	
     // Create EGL context
     createContext(shared);
 }
@@ -200,11 +203,17 @@ void EglContext::setVerticalSyncEnabled(bool enabled)
 ////////////////////////////////////////////////////////////
 void EglContext::createContext(EglContext* shared)
 {
+#if defined(SFML_OPENGL_ES)	
     const EGLint contextVersion[] = {
         EGL_CONTEXT_CLIENT_VERSION, 1,
         EGL_NONE
     };
-
+#elif defined(SFML_OPENGL_ES2)
+    const EGLint contextVersion[] = {
+        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_NONE
+    };
+#endif	
     EGLContext toShared;
 
     if (shared)

@@ -49,7 +49,7 @@
 #include <string>
 #include <cstring>
 
-#ifdef SFML_OPENGL_ES
+#if defined(SFML_OPENGL_ES) || defined(SFML_OPENGL_ES2)
     #include <SFML/Window/EglContext.hpp>
     typedef sf::priv::EglContext ContextType;
 #else

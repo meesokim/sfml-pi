@@ -65,11 +65,11 @@ int main()
 
         // Make the window the active window for OpenGL calls
         window.setActive(true);
-
+#if defined(SFML_OPENGL_ES)
         // Enable Z-buffer read and write
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_TRUE);
-        glClearDepth(1.f);
+        glClearDepthf(1.f);
 
         // Disable lighting
         glDisable(GL_LIGHTING);
@@ -81,7 +81,7 @@ int main()
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         GLfloat ratio = static_cast<float>(window.getSize().x) / window.getSize().y;
-        glFrustum(-ratio, ratio, -1.f, 1.f, 1.f, 500.f);
+        glFrustumf(-ratio, ratio, -1.f, 1.f, 1.f, 500.f);
 
         // Bind the texture
         glEnable(GL_TEXTURE_2D);
@@ -143,7 +143,7 @@ int main()
         // Disable normal and color vertex components
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
-
+#endif
         // Make the window no longer the active window for OpenGL calls
         window.setActive(false);
 
@@ -228,6 +228,7 @@ int main()
             float x =  sf::Mouse::getPosition(window).x * 200.f / window.getSize().x - 100.f;
             float y = -sf::Mouse::getPosition(window).y * 200.f / window.getSize().y + 100.f;
 
+#if defined(SFML_OPENGL_ES)
             // Apply some transformations
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
@@ -238,7 +239,7 @@ int main()
 
             // Draw the cube
             glDrawArrays(GL_TRIANGLES, 0, 36);
-
+#endif
             // Make the window no longer the active window for OpenGL calls
             window.setActive(false);
 

@@ -40,7 +40,7 @@
 #include <cstring>
 #include <cassert>
 
-#if !defined(SFML_OPENGL_ES)
+#if !defined(SFML_OPENGL_ES) && !defined(SFML_OPENGL_ES2)
 
     #if defined(SFML_SYSTEM_WINDOWS)
 
@@ -234,15 +234,15 @@ void GlContext::initResource()
 #ifndef SFML_RPI
         int majorVersion = 0;
         glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
-
         if (glGetError() == GL_INVALID_ENUM)
 #else
         if (1)
 #endif
         {
             // Try to load the < 3.0 way
+#if !defined(SFML_OPENGL_ES)
+			printf ("glGetString=%d\n",GL_EXTENSIONS);
             const char* extensionString = reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS));
-
             do
             {
                 const char* extension = extensionString;
@@ -253,6 +253,7 @@ void GlContext::initResource()
                 extensions.push_back(std::string(extension, extensionString));
             }
             while (*extensionString++);
+#endif			
         }
         else
         {
@@ -442,7 +443,7 @@ bool GlContext::isExtensionAvailable(const char* name)
 ////////////////////////////////////////////////////////////
 GlFunctionPointer GlContext::getFunction(const char* name)
 {
-#if !defined(SFML_OPENGL_ES)
+#if !defined(SFML_OPENGL_ES) && !defined(SFML_OPENGL_ES2)
 
     Lock lock(mutex);
 

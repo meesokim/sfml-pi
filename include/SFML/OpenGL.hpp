@@ -50,6 +50,8 @@
     #if defined(SFML_OPENGL_ES)
         #include <GLES/gl.h>
         #include <GLES/glext.h>
+	#elif defined(SFML_OPENGL_ES2)
+		#include <GLES2/gl2.h>
     #else
         #include <GL/gl.h>
     #endif

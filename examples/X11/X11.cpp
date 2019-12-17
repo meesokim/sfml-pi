@@ -21,9 +21,10 @@ void initialize(sf::Window& window)
     // Activate the window
     window.setActive();
 
+#if defined(SFML_OPENGL_ES)
     // Setup OpenGL states
     // Set color and depth clear value
-    glClearDepth(1.f);
+    glClearDepthf(1.f);
     glClearColor(0.f, 0.5f, 0.5f, 0.f);
 
     // Enable Z-buffer read and write
@@ -34,12 +35,13 @@ void initialize(sf::Window& window)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     static const double pi = 3.141592654;
-    GLdouble extent = std::tan(90.0 * pi / 360.0);
-    glFrustum(-extent, extent, -extent, extent, 1.0, 500.0);
+    float extent = std::tan(90.0 * pi / 360.0);
+    glFrustumf(-extent, extent, -extent, extent, 1.0, 500.0);
 
     // Enable position and texture coordinates vertex components
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
+#endif	
 }
 
 ////////////////////////////////////////////////////////////
@@ -57,7 +59,7 @@ void draw(sf::Window& window, float elapsedTime)
 
     // Clear color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+#if defined(SFML_OPENGL_ES)
     // Apply some transformations
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -117,6 +119,7 @@ void draw(sf::Window& window, float elapsedTime)
     glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube);
     glColorPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), cube + 3);
     glDrawArrays(GL_TRIANGLES, 0, 36);
+#endif	
 }
 
 

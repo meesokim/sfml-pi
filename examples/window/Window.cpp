@@ -18,13 +18,14 @@ int main()
     contextSettings.depthBits = 24;
 
     // Create the main window
-    sf::Window window(sf::VideoMode(640, 480), "SFML window with OpenGL", sf::Style::Default, contextSettings);
+    sf::Window window(sf::VideoMode(0, 0), "SFML window with OpenGL", sf::Style::Default, contextSettings);
 
     // Make it the active window for OpenGL calls
     window.setActive();
 
+#if defined(SFML_OPENGL_ES)
     // Set the color and depth clear values
-    glClearDepth(1.f);
+    glClearDepthf(1.f);
     glClearColor(0.f, 0.f, 0.f, 1.f);
 
     // Enable Z-buffer read and write
@@ -42,7 +43,7 @@ int main()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     GLfloat ratio = static_cast<float>(window.getSize().x) / window.getSize().y;
-    glFrustum(-ratio, ratio, -1.f, 1.f, 1.f, 500.f);
+    glFrustumf(-ratio, ratio, -1.f, 1.f, 1.f, 500.f);
 
     // Define a 3D cube (6 faces made of 2 triangles composed by 3 vertices)
     GLfloat cube[] =
@@ -100,7 +101,7 @@ int main()
     // Disable normal and texture coordinates vertex components
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
+#endif
     // Create a clock for measuring the time elapsed
     sf::Clock clock;
 
@@ -123,7 +124,7 @@ int main()
             if (event.type == sf::Event::Resized)
                 glViewport(0, 0, event.size.width, event.size.height);
         }
-
+#if defined(SFML_OPENGL_ES)
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -137,7 +138,7 @@ int main()
 
         // Draw the cube
         glDrawArrays(GL_TRIANGLES, 0, 36);
-
+#endif
         // Finally, display the rendered frame on screen
         window.display();
     }

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.13)
 
 set(SRCROOT ${PROJECT_SOURCE_DIR}/examples/pong)
 

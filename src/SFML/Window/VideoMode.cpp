@@ -49,7 +49,12 @@ width       (modeWidth),
 height      (modeHeight),
 bitsPerPixel(modeBitsPerPixel)
 {
-
+	if (width == 0 && height == 0)
+	{
+		VideoMode mode = priv::VideoModeImpl::getDesktopMode();
+		width = mode.width;
+		height = mode.height;
+	}
 }
 
 

@@ -86,7 +86,7 @@ sfml_set_option(SFML_BUILD_DOC FALSE BOOL "TRUE to generate the API documentatio
 
 # add an option for choosing the OpenGL implementation
 if(SFML_BUILD_WINDOW)
-    sfml_set_option(SFML_OPENGL_ES ${OPENGL_ES} BOOL "TRUE to use an OpenGL ES implementation, FALSE to use a desktop OpenGL implementation")
+    sfml_set_option(SFML_OPENGL_ES2 ${OPENGL_ES} BOOL "TRUE to use an OpenGL ES implementation, FALSE to use a desktop OpenGL implementation")
 endif()
 
 # Mac OS X specific options
@@ -205,15 +205,15 @@ if(SFML_RPI)
 
     if(NOT CMAKE_CROSSCOMPILING)
         # bcmhost.h seems to assume these directories are in the include path
-        include_directories(/opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
+        include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
     endif()
 
-    set(SFML_OPENGL_ES 1)
+    set(SFML_OPENGL_ES2 1)
 endif()
 
-# define SFML_OPENGL_ES if needed
-if(SFML_OPENGL_ES)
-    add_definitions(-DSFML_OPENGL_ES)
+# define SFML_OPENGL_ES2 if needed
+if(SFML_OPENGL_ES2)
+    add_definitions(-DSFML_OPENGL_ES2)
     add_definitions(-DGL_GLEXT_PROTOTYPES)
 endif()
 
